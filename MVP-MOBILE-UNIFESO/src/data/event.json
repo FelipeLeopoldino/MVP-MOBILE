@@ -1,0 +1,44 @@
+{
+  "eventos": [
+    {
+      "id": 1,
+      "nome": "Oficina de Compostagem Doméstica",
+      "tipo": "Oficina",
+      "duracao_min": 90,
+      "local": "Horta Comunitária Central",
+      "descricao": "Aprenda a transformar resíduos orgânicos em adubo rico para suas plantas. Uma atividade prática para reduzir o lixo e nutrir o solo."
+    },
+    {
+      "id": 2,
+      "nome": "Mutirão de Limpeza da Praia",
+      "tipo": "Ação Comunitária",
+      "duracao_min": 180,
+      "local": "Praia da Esperança",
+      "descricao": "Junte-se a nós para um dia de conscientização e limpeza da nossa praia. Contribua para um oceano mais limpo e saudável."
+    },
+    {
+      "id": 3,
+      "nome": "Palestra: Consumo Consciente e Sustentabilidade",
+      "tipo": "Palestra",
+      "duracao_min": 60,
+      "local": "Auditório Municipal",
+      "descricao": "Descubra como suas escolhas diárias de consumo podem impactar o meio ambiente e aprenda dicas para um estilo de vida mais sustentável."
+    },
+    {
+      "id": 4,
+      "nome": "Plantio de Árvores Nativas",
+      "tipo": "Ação Comunitária",
+      "duracao_min": 120,
+      "local": "Parque Ecológico da Cidade",
+      "descricao": "Participe do plantio de mudas de árvores nativas e ajude a reflorestar áreas degradadas, contribuindo para a biodiversidade local."
+    },
+    {
+      "id": 5,
+      "nome": "Feira de Produtos Orgânicos e Artesanato Sustentável",
+      "tipo": "Feira",
+      "duracao_min": 240,
+      "local": "Praça da Matriz",
+      "descricao": "Venha conhecer produtores locais que oferecem alimentos orgânicos frescos e artesãos com produtos feitos de forma sustentável e criativa."
+    }
+  ]
+}
