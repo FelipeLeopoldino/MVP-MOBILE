@@ -4,7 +4,6 @@ import { useLocalSearchParams, Stack } from 'expo-router';
 import MobileFooter from '../components/Footer';
 import Button from '../components/Button';
 
-// Definindo interfaces para os tipos de item para melhor type safety
 interface TrailDetails {
     id: number;
     nome: string;
