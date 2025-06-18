@@ -17,10 +17,6 @@ const ConfigScreen: React.FC = () => {
         console.log("Trocar senha pressionado");
     };
 
-    const handleAllEvents = () => {
-        console.log("Trocar senha pressionado");
-    };
-
     const handleLogout = () => {
         router.replace('/login');
     };
@@ -34,11 +30,6 @@ const ConfigScreen: React.FC = () => {
                 />
                 <Text style={styles.userName}>{userName}</Text>
             </View>
-
-            <TouchableOpacity style={styles.optionItem} onPress={handleAllEvents}>
-                <Text style={styles.optionText}>Eventos</Text>
-                <Ionicons name="chevron-forward-outline" size={24} color="#ccc" />
-            </TouchableOpacity>
 
             <TouchableOpacity style={styles.optionItem} onPress={handleChangeDados}>
                 <Text style={styles.optionText}>Dados</Text>
@@ -57,7 +48,6 @@ const ConfigScreen: React.FC = () => {
                     textStyle={{ color: '#eb190a', fontSize: 18, fontWeight: '600' }}
                 />
             </View>
-
 
             <MobileFooter />
         </View>
