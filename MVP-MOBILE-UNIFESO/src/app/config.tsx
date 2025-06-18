@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import MobileFooter from '../components/Footer';
-import { Ionicons } from '@expo/vector-icons'; // Para um ícone de seta, opcional
+import { Ionicons } from '@expo/vector-icons'; 
 import Button from '../components/Button';
 import { router } from 'expo-router';
 
