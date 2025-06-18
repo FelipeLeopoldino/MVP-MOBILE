@@ -13,6 +13,15 @@ const MainScreen: React.FC = () => {
         <View style={styles.container}>
             <Text style={styles.title}>Bem-vindo ao</Text>
             <Text style={styles.appName}>Terê Verde</Text>
+
+            <CardText
+                title='Adicionar'
+                textStyle={{ color: '#000', fontSize: 18, fontWeight: '600' }}
+                onPress={() => { router.replace('/add') }}
+                startIcon={<FaRoute size={28} color="#333" />}
+                endIcon={<Ionicons name="chevron-forward-outline" size={30} color="#333" />}
+            />
+
             <CardText
                 title='Trilhas'
                 textStyle={{ color: '#000', fontSize: 18, fontWeight: '600' }}
