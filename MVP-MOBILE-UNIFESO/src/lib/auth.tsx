@@ -22,7 +22,6 @@ export async function registerUser({
     await setDoc(doc(db, 'users', uid), {
         nome,
         email,
-        senha,
         uid,
         createdAt: new Date()
     })
