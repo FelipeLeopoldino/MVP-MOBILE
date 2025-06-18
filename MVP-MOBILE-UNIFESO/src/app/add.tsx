@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
 import { useRouter } from 'expo-router';
+import { Picker } from '@react-native-picker/picker';
 import { db } from '../lib/firebase';
+import { Ionicons } from '@expo/vector-icons';
+import MobileFooter from '../components/Footer';
 
 const CreateItemScreen: React.FC = () => {
     const [type, setType] = useState<'trail' | 'event'>('trail')
@@ -39,18 +42,23 @@ const CreateItemScreen: React.FC = () => {
                     duracao,
                 });
             }
-            alert('Item criado com sucesso!');
-            router.back();
+            router.replace('/main');
         } catch (error) {
             console.error('Erro ao salvar:', error);
-            alert('Erro ao salvar. Tente novamente.');
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Criar {type === 'trail' ? 'Trilha' : 'Evento'}</Text>
 
+            <View style={styles.headerContainer}>
+                <TouchableOpacity onPress={() => router.replace('/main')} style={styles.backButton}>
+                    <Ionicons name="chevron-back-outline" size={30} color="#333" />
+                </TouchableOpacity>
+                <Text style={styles.headerText}>
+                    Criar {type === 'trail' ? 'Trilha' : 'Evento'}
+                </Text>
+            </View>
             <View style={styles.typeSelector}>
                 <TouchableOpacity onPress={() => setType('trail')} style={[styles.typeButton, type === 'trail' && styles.selected]}>
                     <Text>Trilha</Text>
@@ -65,7 +73,18 @@ const CreateItemScreen: React.FC = () => {
 
             {type === 'trail' ? (
                 <>
-                    <TextInput placeholder="Nível" value={nivel} onChangeText={setNivel} style={styles.input} />
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={nivel}
+                            onValueChange={(itemValue) => setNivel(itemValue)}
+                            style={styles.picker}
+                        >
+                            <Picker.Item label="Selecione o Nível" value="" />
+                            <Picker.Item label="Fácil" value="facil" />
+                            <Picker.Item label="Intermediário" value="intermediário" />
+                            <Picker.Item label="Difícil" value="dificil" />
+                        </Picker>
+                    </View>
                     <TextInput placeholder="Km" value={km} onChangeText={setKm} style={styles.input} keyboardType="numeric" />
                     <TextInput placeholder="Tempo (min)" value={tempo} onChangeText={setTempo} style={styles.input} keyboardType="numeric" />
                 </>
@@ -78,6 +97,8 @@ const CreateItemScreen: React.FC = () => {
             )}
 
             <Button title="Salvar" onPress={handleSave} color="#3E7D47" />
+
+            <MobileFooter />
         </View>
     );
 };
@@ -87,20 +108,37 @@ export default CreateItemScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20
+        paddingHorizontal: 20,
+        paddingTop: Platform.OS === 'ios' ? 40 : 20,
     },
-    title: {
+    headerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+        position: 'relative',
+        width: '100%',
+    },
+    backButton: {
+        position: 'absolute',
+        left: 0,
+        zIndex: 1,
+    },
+    headerText: {
+        flex: 1,
+        textAlign: 'center',
+        alignItems: 'center',
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
-        color: '#3E7D47'
+        color: '#3E7D47',
     },
     input: {
         borderWidth: 1,
         borderColor: '#ccc',
         padding: 10,
         marginBottom: 15,
-        borderRadius: 5
+        borderRadius: 5,
+        backgroundColor: '#fff',
     },
     typeSelector: {
         flexDirection: 'row',
@@ -116,4 +154,16 @@ const styles = StyleSheet.create({
     selected: {
         backgroundColor: '#d0f0d0'
     },
+    pickerContainer: {
+        borderWidth: 1,
+        borderColor: '#fffbfb',
+        borderRadius: 10,
+        marginBottom: 15,
+        justifyContent: 'center',
+
+    },
+    picker: {
+        height: 50,
+        width: '100%',
+    }
 })
