@@ -15,6 +15,7 @@ type Event = {
     local: string;
     duracao: string;
     desc: string;
+    documentId: string;
 };
 
 const EventScreen: React.FC = () => {
@@ -26,8 +27,9 @@ const EventScreen: React.FC = () => {
         async function fetchedEvent() {
             try {
                 const querySnapshot = await getDocs(collection(db, 'eventos'));
-                const fetchedEvent: Event[] = querySnapshot.docs.map(doc => doc.data() as Event);
-                setEvent(fetchedEvent);
+                const fetchedEvent: Event[] = querySnapshot.docs.map(doc => ({
+                    ...(doc.data() as Event), documentId: doc.id}))
+                setEvent(fetchedEvent)
             } catch (error) {
                 console.error('Erro ao buscar evonto:', error);
             } finally {
@@ -48,6 +50,7 @@ const EventScreen: React.FC = () => {
                 local: event.local,
                 ducacao: event.duracao,
                 desc: event.desc,
+                documentId: event.documentId,
             },
         });
     };
@@ -67,7 +70,7 @@ const EventScreen: React.FC = () => {
                 <Text style={styles.title}>Eventos</Text>
                 {events.map((event) => (
                     <CardText
-                        key={event.id}
+                        key={event.documentId}
                         title={event.nome}
                         textStyle={{ color: '#000', fontSize: 18, fontWeight: '600' }}
                         onPress={() => handlePressEvent(event)}

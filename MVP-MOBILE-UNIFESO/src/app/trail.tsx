@@ -15,6 +15,7 @@ type Trail = {
     km: string;
     tempo: string;
     desc: string;
+    documentId: string;
 };
 
 const TrailScreen: React.FC = () => {
@@ -26,8 +27,9 @@ const TrailScreen: React.FC = () => {
         async function fetchTrails() {
             try {
                 const querySnapshot = await getDocs(collection(db, 'trilhas'));
-                const fetchedTrails: Trail[] = querySnapshot.docs.map(doc => doc.data() as Trail);
-                setTrails(fetchedTrails);
+                const fetchedTrails: Trail[] = querySnapshot.docs.map(doc => ({
+                    ...(doc.data() as Trail), documentId: doc.id}))
+                setTrails(fetchedTrails)
             } catch (error) {
                 console.error('Erro ao buscar trilhas:', error);
             } finally {
@@ -49,6 +51,7 @@ const TrailScreen: React.FC = () => {
                 nivel: trail.nivel,
                 km: String(trail.km),
                 tempo: String(trail.tempo),
+                documentId: trail.documentId,
             },
         });
     };
@@ -68,7 +71,7 @@ const TrailScreen: React.FC = () => {
                 <Text style={styles.title}>Trilhas</Text>
                 {trails.map((trail) => (
                     <CardText
-                        key={trail.id}
+                        key={trail.documentId}
                         title={trail.nome}
                         textStyle={{ color: '#000', fontSize: 18, fontWeight: '600' }}
                         onPress={() => handlePressTrail(trail)}

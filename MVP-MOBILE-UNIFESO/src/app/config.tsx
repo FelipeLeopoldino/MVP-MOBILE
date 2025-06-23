@@ -1,25 +1,54 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import MobileFooter from '../components/Footer';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import Button from '../components/Button';
 import { router } from 'expo-router';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../lib/firebase';
+import { getUserData } from '../lib/auth';
 
 const ConfigScreen: React.FC = () => {
-    const userName = "Felipe Leopoldino";
     const userProfileImageUrl = 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png';
+    const [userData, setUserData] = useState<any>(null)
+    const [uid, setUid] = useState<string | null>(null)
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    setUid(user.uid)
+                    const data = await getUserData(user.uid)
+                    setUserData(data)
+                } catch (error) {
+                    console.error("Erro ao buscar dados:", error)
+                }
+            }
+        })
+        return () => unsubscribe()
+    }, [])
 
     const handleChangePassword = () => {
         console.log("Trocar senha pressionado");
-    };
+    }
 
     const handleChangeDados = () => {
         console.log("Trocar senha pressionado");
-    };
+    }
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await signOut(auth)
         router.replace('/login');
-    };
+    }
+
+    if (!userData) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#3E7D47" />
+                <Text>Carregando dados...</Text>
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -28,7 +57,7 @@ const ConfigScreen: React.FC = () => {
                     source={{ uri: userProfileImageUrl }}
                     style={styles.profileImage}
                 />
-                <Text style={styles.userName}>{userName}</Text>
+                <Text style={styles.userName}>{userData.nome}</Text>
             </View>
 
             <TouchableOpacity style={styles.optionItem} onPress={handleChangeDados}>
@@ -98,7 +127,12 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-    }
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default ConfigScreen;

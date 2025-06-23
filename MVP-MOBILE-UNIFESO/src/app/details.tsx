@@ -1,11 +1,16 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useLocalSearchParams, Stack } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { useLocalSearchParams, Stack, router } from 'expo-router';
 import MobileFooter from '../components/Footer';
 import Button from '../components/Button';
+import { deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../lib/firebase';
 
 const DetailsScreen: React.FC = () => {
   const params = useLocalSearchParams();
+
+  const documentId = params.documentId as string
+  const [isAdmin, setIsAdmin] = useState(false)
 
   const itemType = params.type as 'trail' | 'event';
   const nome = params.nome as string;
@@ -20,6 +25,49 @@ const DetailsScreen: React.FC = () => {
   const tipo = params.tipo as string | undefined;
   const duracao = params.duracao as string | undefined;
   const local = params.local as string | undefined;
+
+  useEffect(() => {
+    async function checkAdmin() {
+      const user = auth.currentUser;
+      if (user) {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists() && userDoc.data().admin) {
+          setIsAdmin(true);
+          console.log('é admin')
+        }
+      }
+    }
+
+    checkAdmin();
+  }, []);
+
+  const handleDelete = async () => {
+    if (!documentId) return;
+
+    Alert.alert(
+      'Confirmar Exclusão',
+      `Tem certeza que deseja excluir "${nome}"?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Apagar',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const collectionName = itemType === 'trail' ? 'trilhas' : 'eventos';
+              await deleteDoc(doc(db, collectionName, documentId));
+              alert('Item excluído com sucesso!');
+              router.back();
+            } catch (error) {
+              console.error('Erro ao excluir:', error);
+              alert('Erro ao excluir. Tente novamente.');
+            }
+          },
+        },
+      ],
+    );
+  };
+
 
   if (!nome || !descricao) {
     return (
@@ -56,6 +104,12 @@ const DetailsScreen: React.FC = () => {
               textStyle={{ color: '#185221', fontSize: 22, fontWeight: '600' }}
             />
           </>
+        )}
+        {isAdmin && (
+          <View style={{ marginTop: 20 }}>
+            <Button title="Apagar" onPress={handleDelete}
+            textStyle={{ color: 'red', fontSize: 22, fontWeight: '600' }} />
+          </View>
         )}
       </ScrollView>
       <MobileFooter />
