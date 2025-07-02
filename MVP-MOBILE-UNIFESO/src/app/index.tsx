@@ -13,7 +13,7 @@ const InitialScreen: React.FC = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Terê Verde</Text> {/* Vai entrar a logo */}
+            <Text style={styles.title}>Terê Verde</Text> 
             <Button
                 title="Explorar"
                 onPress={handleExplorePress}
