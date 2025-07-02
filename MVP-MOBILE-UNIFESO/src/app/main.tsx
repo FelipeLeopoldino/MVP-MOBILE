@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CardText from '~/src/components/CardText';
-import { FaCalendarAlt, FaCog, FaPlus, FaRoute } from 'react-icons/fa';
+import { FaCalendarAlt, FaPlus, FaRoute } from 'react-icons/fa';
 import MobileFooter from '../components/Footer';
 
 const MainScreen: React.FC = () => {
@@ -37,15 +37,6 @@ const MainScreen: React.FC = () => {
                 endIcon={<Ionicons name="chevron-forward-outline" size={30} color="#333" />}
 
             />
-
-            <CardText
-                title='Configuração'
-                textStyle={{ color: '#000', fontSize: 18, fontWeight: '600' }}
-                onPress={() => { router.replace('/config') }}
-                startIcon={<FaCog size={28} color="#333" />}
-                endIcon={<Ionicons name="chevron-forward-outline" size={30} color="#333" />}
-            />
-
             <MobileFooter />
         </View>
     );
