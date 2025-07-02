@@ -37,36 +37,22 @@ const DetailsScreen: React.FC = () => {
         }
       }
     }
-
     checkAdmin();
   }, []);
 
   const handleDelete = async () => {
     if (!documentId) return;
 
-    Alert.alert(
-      'Confirmar Exclusão',
-      `Tem certeza que deseja excluir "${nome}"?`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Apagar',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const collectionName = itemType === 'trail' ? 'trilhas' : 'eventos';
-              await deleteDoc(doc(db, collectionName, documentId));
-              alert('Item excluído com sucesso!');
-              router.back();
-            } catch (error) {
-              console.error('Erro ao excluir:', error);
-              alert('Erro ao excluir. Tente novamente.');
-            }
-          },
-        },
-      ],
-    );
-  };
+    try {
+      const collectionName = itemType === 'trail' ? 'trilhas' : 'eventos';
+      await deleteDoc(doc(db, collectionName, documentId));
+      alert('Item excluído com sucesso!');
+      router.replace('/main');
+    } catch (error) {
+      console.error('Erro ao excluir:', error);
+      alert('Erro ao excluir. Tente novamente.');
+    }
+  }
 
 
   if (!nome || !descricao) {
@@ -108,7 +94,7 @@ const DetailsScreen: React.FC = () => {
         {isAdmin && (
           <View style={{ marginTop: 20 }}>
             <Button title="Apagar" onPress={handleDelete}
-            textStyle={{ color: 'red', fontSize: 22, fontWeight: '600' }} />
+              textStyle={{ color: 'red', fontSize: 22, fontWeight: '600' }} />
           </View>
         )}
       </ScrollView>
