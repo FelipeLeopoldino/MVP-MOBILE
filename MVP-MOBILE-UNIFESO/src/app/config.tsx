@@ -28,9 +28,6 @@ const ConfigScreen: React.FC = () => {
         return () => unsubscribe()
     }, [])
 
-    const handleChangePassword = () => {
-        console.log("Trocar senha pressionado");
-    }
 
     const handleChangeDados = () => {
         console.log("Trocar senha pressionado");
@@ -62,11 +59,6 @@ const ConfigScreen: React.FC = () => {
 
             <TouchableOpacity style={styles.optionItem} onPress={handleChangeDados}>
                 <Text style={styles.optionText}>Dados</Text>
-                <Ionicons name="chevron-forward-outline" size={24} color="#ccc" />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.optionItem} onPress={handleChangePassword}>
-                <Text style={styles.optionText}>Trocar Senha</Text>
                 <Ionicons name="chevron-forward-outline" size={24} color="#ccc" />
             </TouchableOpacity>
 
