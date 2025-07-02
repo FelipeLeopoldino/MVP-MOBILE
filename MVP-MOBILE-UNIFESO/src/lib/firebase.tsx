@@ -3,12 +3,12 @@ import { browserLocalPersistence, getAuth, setPersistence } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC-e031o-N228p5dBV9pBDpKeQQfxip5JM",
-  authDomain: "tere-verde.firebaseapp.com",
-  projectId: "tere-verde",
-  storageBucket: "tere-verde.firebasestorage.app",
-  messagingSenderId: "775538365843",
-  appId: "1:775538365843:web:53edf76d2a1fcbca634466"
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_APP_ID
 }
 
 const app = initializeApp(firebaseConfig)
